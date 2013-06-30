@@ -1,11 +1,3 @@
-<script type="text/javascript" src="jquery.autocomplete.js"></script>
-<script>
- $(document).ready(function(){
-  $("#tag").autocomplete("autocomplete.php", {
-        selectFirst: true
-  });
- });
- 
 window.onload = function(){
 
 	$('#search_by_id').click(function(data){
