@@ -2,7 +2,7 @@
 	// TESTING COMMENT SECTION
 	function getConnection() {
 
-		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");		
+		$connection = mysqli_connect("localhost", "root","123","mydatabase");		
 
 		return $connection;	
 	}
@@ -92,45 +92,40 @@
 			$title = htmlspecialchars($title);
 			$title = mysql_escape_string($title);
 			
-			$addresses =  strip_tags($_POST["addr"]);
-			$addresses = htmlspecialchars($addresses);
-			$addresses = mysql_escape_string($addresses);
-			
-			if(preg_match(',',$addresses)){
-				$addresses = preg_split(",",$addresses,-1,PREG_SPLIT_NO_EMPTY);
-			}
-			
+			$addresses =  $_POST["addr"];
 			$content = $_POST['content'];
 			
 			try {
-			
+
 				$query = "INSERT INTO notification(title,content) VALUES('$title','$content')";
 				mysqli_query($connection, $query);
-				
-				if(sizeof($addresses[0])>1) { 
+			
+				if(!strripos(",",$addresses))
+				{
+					$addresses = explode(",",$addresses);
 					for($i = 0; $i < sizeof($addresses); ++$i) {
-						$userID = "";
-						$notificationID = "";
-						$result = mysqli_query($connection,"SELECT id FROM user WHERE name = '$addresses[$i]'");
-						while($row = mysqli_fetch_array($result))
-						{
-							$userID = $row['id']; 
+							$userID = "";
+							$notificationID = "";
+							$result = mysqli_query($connection,"SELECT id FROM user WHERE name = '$addresses[$i]'");
+							while($row = mysqli_fetch_array($result))
+							{
+								$userID = $row['id']; 
+							}
+							
+							$result = mysqli_query($connection,"SELECT id FROM notification WHERE title = '$title'");
+							
+							while($row = mysqli_fetch_array($result))
+							{
+								$notificationID = $row['id']; 
+							}
+							
+							$status = "unread";
+							
+							$query = "INSERT INTO usernotif(userID,notificationID,notification_status) VALUES('$userID','$notificationID','$status')";
+							mysqli_query($connection, $query);
+						
 						}
-						
-						$result = mysqli_query($connection,"SELECT id FROM notification WHERE title = '$title'");
-						
-						while($row = mysqli_fetch_array($result))
-						{
-							$notificationID = $row['id']; 
-						}
-						
-						$status = "unread";
-						
-						$query = "INSERT INTO usernotif(userID,notificationID,notification_status) VALUES('$userID','$notificationID','$status')";
-						mysqli_query($connection, $query);
-					
-					}
-				}
+				}	
 				else
 				{
 						$userID = "";
@@ -156,7 +151,7 @@
 				?>
 					<p>Mail Sending was requested</p>
 					<p>Title: <?=$_POST['title'] ?></p>
-					<p>Addresses are: <?=$_POST["addr"] ?></p>
+					<p>Addresses are: <?=$addresses ?></p>
 					<p>Content: <?=$_POST['content'] ?></p>
 				<?php
 			}
