@@ -1,7 +1,7 @@
 window.onload = function(){
 
 	$('#search_by_id').click(function(data){
-	
+
 		var user_id = $("#user_id").val();
 		console.log($("#user_id").val());
 		if(user_id != ""){
@@ -18,21 +18,21 @@ window.onload = function(){
 			// Throw exception
 		}
 	});
-	
+
 	$('#user_register').click(function(data){
-	
+
 		var user_name = $("#user_name").val();
 		var user_surname = $("#user_surname").val();
 		var user_login = $("#user_login").val();
 		var user_pass = $("#user_pass").val();
 		var user_pass_confirm = $("#user_pass_confirm").val();
-		
+
 		console.log("info for register: " + user_name + " " + user_surname + " " 
 								+ user_login + " " + user_pass + " " + user_pass_confirm);
-								
+
 		var is_valid = user_name != "" && user_surname != "" && user_login != "" && 
 							user_pass != "" && user_pass == user_pass_confirm;
-		
+
 		if(is_valid){
 			$("#validate_register_user").css("display", "none");
 			$.ajax({
@@ -51,7 +51,7 @@ window.onload = function(){
 			$("#validate_register_user").css("display", "");
 		}
 	});
-	
+
 	$('#course_button').click(function(){
 		console.log('click')
 		var user_id = $("#profile").val();
@@ -85,6 +85,24 @@ window.onload = function(){
 			});
 		}else{
 			//Throw exception
+		}
+	});
+
+	$('#get_notif_button').click(function(){
+		var user_id = $("#user_id_notif").val();
+		console.log($("#user_id_notif").val());
+		if(user_id != ""){
+			$.ajax({
+				url: 'functions.php',
+				type: 'post',
+				data: {method: 'get_notification_info', id: user_id},
+				success: function(data){
+					console.log("finished");
+					$("#content_info").html(data);
+				}
+			});
+		}else{
+			// Throw exception
 		}
 	});
 }

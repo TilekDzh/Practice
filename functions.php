@@ -13,6 +13,7 @@
 
 			// DB PROFILE INFO REQUEST.
 			// USER ID IS IN $_POST['id']\
+			
 			$id = $_POST['id'];
 			$connection = getConnection();
 
@@ -92,14 +93,16 @@
 			$title = htmlspecialchars($title);
 			$title = mysql_escape_string($title);
 			
-			$addresses =  $_POST["addr"];
+			//$addresses =  $_POST["addr"];
 			$content = $_POST['content'];
 			
 			try {
-
+			
+			print($title);
 			$query = "INSERT INTO notification(title,content) VALUES('$title','$content')";
 			mysqli_query($connection, $query);
-			$addresses = explode(",",$addresses);
+			
+			//$addresses = explode(",",$addresses);
 			$userID = "";
 			$notificationID = "";
 			
@@ -185,6 +188,31 @@
 					<p>Error: <?=$e->getMessage()?> </p>
 				<?php	
 			}				
+		}
+		else if ($method == 'get_notification_info'){
+
+			$userID = $_POST['id'];
+			$connection = getConnection();
+			
+			$query = "SELECT notificationID,notification_status FROM usernotif WHERE userID = '$userID'";
+			$info = mysqli_query($connection,$query);
+			
+			while($row =  mysqli_fetch_array($info))
+			{
+				$notificationID = $row['notificationID'];
+				$status = $row['notification_status'];
+				$query = "SELECT title,content FROM notification WHERE id = '$notificationID'";
+				
+				$result = mysqli_query($connection,$query);
+				$result = mysqli_fetch_row($result);
+				
+				array_push($result,$status);
+				
+				//echo json_encode($status);
+				echo json_encode($result);
+				
+			}
+
 		}
 	}
 
