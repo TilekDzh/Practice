@@ -200,16 +200,19 @@
 			while($row =  mysqli_fetch_array($info))
 			{
 				$notificationID = $row['notificationID'];
-				$status = $row['notification_status'];
-				$query = "SELECT title,content FROM notification WHERE id = '$notificationID'";
+				$query = "SELECT title,content,notification_status FROM notification JOIN usernotif ON notification.id = usernotif.notificationID WHERE notification.id = '$notificationID'";
 				
 				$result = mysqli_query($connection,$query);
-				$result = mysqli_fetch_row($result);
+				$result = mysqli_fetch_assoc($result);
 				
-				array_push($result,$status);
+				$notificationID = 1;
+				$ID = (string)$notificationID;
+			
+				$notificationInfo = array();
 				
-				//echo json_encode($status);
-				echo json_encode($result);
+				$notificationInfo[$ID] = $result;
+				
+				echo json_encode($notificationInfo);
 				
 			}
 			//Notification processes here
