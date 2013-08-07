@@ -94,7 +94,7 @@ window.onload = function(){
 		if(user_id != ""){
 			$.ajax({
 				url: 'functions.php',
-				type: 'get',
+				type: 'post',
 				data: {method: 'get_notification_info', id: user_id},
 				success: function(data){
 					console.log("finished");

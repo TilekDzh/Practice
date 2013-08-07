@@ -190,7 +190,9 @@
 
 			//Notification processes here
 			//$_GET['user_id']
-			
+			?>
+				<p>This is how you print things</p>
+			<?php
 			
 		}
 	}
