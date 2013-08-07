@@ -91,6 +91,13 @@
 				<p>Content: <?=$_POST['content'] ?></p>
 			<?php	
 		}
+		else if ($method == 'get_notification_info'){
+
+			//Notification processes here
+			//$_GET['user_id']
+			
+			
+		}
 	}
 
 

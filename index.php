@@ -23,6 +23,7 @@
 						<li><a href="#tabs-1">User info</a></li>
 						<li><a href="#tabs-2">User Course info</a></li>
 						<li><a href="#tabs-3">Mail Sending</a></li>
+						<li><a href="#tabs-4">User Notification Info</a></li>
 					</ul>
 					<div id="tabs-1">
 						<div id="registration">
@@ -56,6 +57,12 @@
 							<div>Content:</div><textarea name="msg_content" id="msg_content" cols="80" rows="10"></textarea>
 						</div>
 						<a id="mail_button" href="#" class="classname">Send</a> 
+					</div>
+					<div id="tabs-4">
+						<div>
+							<div class="input-field"><div>Enter ID</div><input id="user_id_notif" type="text" name="ID"></div>
+						</div>
+						<a id="get_info_button" href="#" class="classname">Get info</a> 
 					</div>
 				</div>
 			</div>

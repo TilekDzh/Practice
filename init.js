@@ -87,4 +87,22 @@ window.onload = function(){
 			//Throw exception
 		}
 	});
+
+	$('#get_info_button').clock(function(){
+		var user_id = $("#user_id_notif").val();
+		console.log($("#user_id_notif").val());
+		if(user_id != ""){
+			$.ajax({
+				url: 'functions.php',
+				type: 'get',
+				data: {method: 'get_notification_info', id: user_id},
+				success: function(data){
+					console.log("finished");
+					$("#content_info").html(data);
+				}
+			});
+		}else{
+			// Throw exception
+		}
+	});
 }
