@@ -2,7 +2,7 @@
 	// TESTING COMMENT SECTION 
 	function getConnection() {
 
-		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");		
+		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");		);		
 
 		return $connection;	
 	}
@@ -197,21 +197,23 @@
 			$query = "SELECT notificationID,notification_status FROM usernotif WHERE userID = '$userID'";
 			$info = mysqli_query($connection,$query);
 			
+			$notificationInfo = array();
 			while($row =  mysqli_fetch_array($info))
 			{
 				$notificationID = $row['notificationID'];
-				$status = $row['notification_status'];
-				$query = "SELECT title,content FROM notification WHERE id = '$notificationID'";
+				$query = "SELECT title,content,notification_status FROM notification JOIN usernotif ON notification.id = usernotif.notificationID WHERE notification.id = '$notificationID'";
 				
 				$result = mysqli_query($connection,$query);
-				$result = mysqli_fetch_row($result);
+				$result = mysqli_fetch_assoc($result);
 				
-				array_push($result,$status);
+				$notificationID = 1;
+				$ID = (string)$notificationID;
 				
-				//echo json_encode($status);
-				echo json_encode($result);
+				$notificationInfo[$ID] = $result;
 				
 			}
+			
+			echo json_encode($notificationInfo);
 			//Notification processes here
 			//$_GET['user_id']
 			
