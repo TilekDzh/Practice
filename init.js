@@ -88,7 +88,7 @@ window.onload = function(){
 		}
 	});
 
-	$('#get_info_button').clock(function(){
+	$('#get_notif_button').click(function(){
 		var user_id = $("#user_id_notif").val();
 		console.log($("#user_id_notif").val());
 		if(user_id != ""){

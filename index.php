@@ -62,7 +62,7 @@
 						<div>
 							<div class="input-field"><div>Enter ID</div><input id="user_id_notif" type="text" name="ID"></div>
 						</div>
-						<a id="get_info_button" href="#" class="classname">Get info</a> 
+						<a id="get_notif_button" href="#" class="classname">Get info</a> 
 					</div>
 				</div>
 			</div>
