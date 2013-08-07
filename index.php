@@ -23,23 +23,24 @@
 						<li><a href="#tabs-1">User info</a></li>
 						<li><a href="#tabs-2">User Course info</a></li>
 						<li><a href="#tabs-3">Mail Sending</a></li>
+						<li><a href="#tabs-4">User Notification Info</a></li>
 					</ul>
 					<div id="tabs-1">
 						<div id="registration">
 							<div class="input-field"><div>Enter User ID</div><input id="user_id" type="text" name="ID"></div>
-							
+
 							<a id="search_by_id" href="#" class="classname">Search</a> 
 							<br>
 							<br>
-							
+
 							<div class="input-field"><div>Name</div><input id="user_name" type="text" name="user_name"></div>
 							<div class="input-field"><div>Surname</div><input id="user_surname" type="text" name="user_surname"></div>
 							<div class="input-field"><div>Login</div><input id="user_login" type="text" name="user_login"></div>
 							<div class="input-field"><div>Password</div><input id="user_pass" type="password" name="user_pass"></div>
 							<div class="input-field"><div>Confirm Password</div><input id="user_pass_confirm" type="password" name="user_pass_confirm"></div>
-							
+
 							<p style="display: none; color: red" id="validate_register_user">Passwords do not match or you have missed fields!</p>
-							
+
 							<a id="user_register" class="classname">Submit</a> 
 						</div>
 					</div>
@@ -56,6 +57,12 @@
 							<div>Content:</div><textarea name="msg_content" id="msg_content" cols="80" rows="10"></textarea>
 						</div>
 						<a id="mail_button" href="#" class="classname">Send</a> 
+					</div>
+					<div id="tabs-4">
+						<div>
+							<div class="input-field"><div>Enter ID</div><input id="user_id_notif" type="text" name="ID"></div>
+						</div>
+						<a id="get_notif_button" href="#" class="classname">Get info</a> 
 					</div>
 				</div>
 			</div>
