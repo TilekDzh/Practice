@@ -95,7 +95,6 @@ window.onload = function(){
 			$.ajax({
 				url: 'functions.php',
 				type: 'post',
-				type: 'get',
 				data: {method: 'get_notification_info', id: user_id},
 				success: function(data){
 					console.log("finished");

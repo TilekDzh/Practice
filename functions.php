@@ -179,7 +179,6 @@
 				?>
 					<p>Mail Sending was requested</p>
 					<p>Title: <?=$_POST['title'] ?></p>
-					<p>Addresses are: <?=$addresses ?></p>
 					<p>Content: <?=$_POST['content'] ?></p>
 				<?php
 			}
@@ -213,11 +212,8 @@
 				echo json_encode($result);
 				
 			}
-
-=======
 			//Notification processes here
 			//$_GET['user_id']
-			
 			
 		}
 	}
