@@ -191,7 +191,7 @@
 		}
 		else if ($method == 'get_notification_info'){
 
-<<<<<<< HEAD
+
 			$userID = $_POST['id'];
 			$connection = getConnection();
 			
@@ -219,7 +219,6 @@
 			//$_GET['user_id']
 			
 			
->>>>>>> 675d6a0d7fb82406a624b7a59d7c38dcf3c68347
 		}
 	}
 
