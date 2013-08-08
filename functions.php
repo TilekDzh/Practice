@@ -2,8 +2,8 @@
 	// TESTING COMMENT SECTION 
 	function getConnection() {
 
-		//$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");
-		$connection = mysqli_connect("localhost", "root" , "", "a7551670_auca");
+		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");
+		//$connection = mysqli_connect("localhost", "root" , "", "a7551670_auca");
 
 		return $connection;	
 	}
