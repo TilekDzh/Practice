@@ -2,7 +2,8 @@
 	// TESTING COMMENT SECTION 
 	function getConnection() {
 
-		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");		);		
+		//$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");
+		$connection = mysqli_connect("localhost", "root" , "", "a7551670_auca");
 
 		return $connection;	
 	}
@@ -91,7 +92,7 @@
 			
 			$title = strip_tags($_POST["title"]);
 			$title = htmlspecialchars($title);
-			$title = mysql_escape_string($title);
+			$title = mysqli_escape_string($connection, $title);
 			
 			//$addresses =  $_POST["addr"];
 			$content = $_POST['content'];
@@ -99,9 +100,9 @@
 			try {
 			
 			print($title);
-			$query = "INSERT INTO notification(title,content) VALUES('$title','$content')";
-			mysqli_query($connection, $query);
-			
+			$query = "INSERT INTO notification(title,content) VALUES('$title','$content');";
+			$ss = mysqli_query($connection, $query);
+			print("$ss");			
 			//$addresses = explode(",",$addresses);
 			$userID = "";
 			$notificationID = "";
