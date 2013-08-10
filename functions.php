@@ -311,7 +311,13 @@
 			<p><?=$_POST['lab']?></p>
 			<p><?=$_POST['course_teacher']?></p>
 			<?php
-		}	
+		}
+		else if($method == "add_course"){
+			?>
+			<p><?=$_POST['user_id']?></p>
+			<p><?=$_POST['course_id']?></p>
+			<?php
+		}
 	}
 
 

@@ -172,4 +172,16 @@ window.onload = function(){
 			}
 		});
 	});
+	$('#add_course').click(function(){
+		var u_id = $('#user_id_reg').val();
+		var c_id = $('#course_id_reg').val();
+		$.ajax({
+			url: 'functions.php',
+			type: 'post',
+			data: {method: 'add_course', user_id: u_id, course_id: c_id},
+			success: function(data){
+				$("#content_info").html(data);
+			}
+		});
+	});
 }

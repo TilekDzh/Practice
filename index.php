@@ -25,6 +25,7 @@
 						<li><a href="#tabs-3">Mail Sending</a></li>
 						<li><a href="#tabs-4">User Notification Info</a></li>
 						<li><a href="#tabs-5">Course information</a></li>
+						<li><a href="#tabs-6">User course registeration</a></li>
 					</ul>
 					<div id="tabs-1">
 						<div id="registration">
@@ -154,6 +155,13 @@
 							<div class="input-field"><div>Teacher(s):</div><input id="c_teacher" type="text" name="Teachers"></div>
 						</div>
 						<a id="course_insert" href="#" class="classname">Add</a> 
+					</div>
+					<div id="tabs-6">
+						<div>
+							<div class="input-field"><div>User ID</div><input id="user_id_reg" type="text" name="u_id"></div>
+							<div class="input-field"><div>Course ID</div><input id="course_id_reg" type="text" name="c_id"></div>
+						</div>
+						<a id="add_course" href="#" class="classname">Add</a> 
 					</div>
 				</div>
 			</div>
