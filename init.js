@@ -1,7 +1,7 @@
 window.onload = function(){
 
 	$('#search_by_id').click(function(data){
-	
+
 		var user_id = $("#user_id").val();
 		console.log($("#user_id").val());
 		if(user_id != ""){
@@ -18,21 +18,21 @@ window.onload = function(){
 			// Throw exception
 		}
 	});
-	
+
 	$('#user_register').click(function(data){
-	
+
 		var user_name = $("#user_name").val();
 		var user_surname = $("#user_surname").val();
 		var user_login = $("#user_login").val();
 		var user_pass = $("#user_pass").val();
 		var user_pass_confirm = $("#user_pass_confirm").val();
-		
+
 		console.log("info for register: " + user_name + " " + user_surname + " " 
 								+ user_login + " " + user_pass + " " + user_pass_confirm);
-								
+
 		var is_valid = user_name != "" && user_surname != "" && user_login != "" && 
 							user_pass != "" && user_pass == user_pass_confirm;
-		
+
 		if(is_valid){
 			$("#validate_register_user").css("display", "none");
 			$.ajax({
@@ -51,7 +51,7 @@ window.onload = function(){
 			$("#validate_register_user").css("display", "");
 		}
 	});
-	
+
 	$('#course_button').click(function(){
 		console.log('click')
 		var user_id = $("#c_user_id").val();
