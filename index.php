@@ -29,19 +29,19 @@
 					<div id="tabs-1">
 						<div id="registration">
 							<div class="input-field"><div>Enter User ID</div><input id="user_id" type="text" name="ID"></div>
-							
+
 							<a id="search_by_id" href="#" class="classname">Search</a> 
 							<br>
 							<br>
-							
+
 							<div class="input-field"><div>Name</div><input id="user_name" type="text" name="user_name"></div>
 							<div class="input-field"><div>Surname</div><input id="user_surname" type="text" name="user_surname"></div>
 							<div class="input-field"><div>Login</div><input id="user_login" type="text" name="user_login"></div>
 							<div class="input-field"><div>Password</div><input id="user_pass" type="password" name="user_pass"></div>
 							<div class="input-field"><div>Confirm Password</div><input id="user_pass_confirm" type="password" name="user_pass_confirm"></div>
-							
+
 							<p style="display: none; color: red" id="validate_register_user">Passwords do not match or you have missed fields!</p>
-							
+
 							<a id="user_register" class="classname">Submit</a> 
 						</div>
 					</div>

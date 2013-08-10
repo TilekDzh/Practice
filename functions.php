@@ -1,8 +1,7 @@
 <?php 
 	// TESTING COMMENT SECTION
 	function getConnection() {
-
-		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");		
+		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");	
 
 		return $connection;	
 	}
@@ -13,6 +12,7 @@
 
 			// DB PROFILE INFO REQUEST.
 			// USER ID IS IN $_POST['id']\
+			
 			$id = $_POST['id'];
 			$connection = getConnection();
 
@@ -92,14 +92,15 @@
 			$title = htmlspecialchars($title);
 			$title = mysql_escape_string($title);
 			
-			$addresses =  $_POST["addr"];
+			//$addresses =  $_POST["addr"];
 			$content = $_POST['content'];
 			
 			try {
-
+			
 			$query = "INSERT INTO notification(title,content) VALUES('$title','$content')";
 			mysqli_query($connection, $query);
-			$addresses = explode(",",$addresses);
+			
+			//$addresses = explode(",",$addresses);
 			$userID = "";
 			$notificationID = "";
 			
@@ -176,7 +177,6 @@
 				?>
 					<p>Mail Sending was requested</p>
 					<p>Title: <?=$_POST['title'] ?></p>
-					<p>Addresses are: <?=$addresses ?></p>
 					<p>Content: <?=$_POST['content'] ?></p>
 				<?php
 			}
@@ -188,8 +188,36 @@
 		}
 		else if ($method == 'get_notification_info'){
 
+
+			$userID = $_POST['id'];
+			$connection = getConnection();
+			
+			if(!$connection) {
+				return;
+			}
+			
+			$query = "SELECT notificationID,notification_status FROM usernotif WHERE userID = '$userID'";
+			$info = mysqli_query($connection,$query);
+			
+			$notificationInfo = array();
+			while($row =  mysqli_fetch_array($info))
+			{
+				$notificationID = $row['notificationID'];
+				$query = "SELECT title,content,notification_status FROM notification JOIN usernotif ON notification.id = usernotif.notificationID WHERE notification.id = '$notificationID'";
+				
+				$result = mysqli_query($connection,$query);
+				$result = mysqli_fetch_assoc($result);
+				
+				$ID = (string)$notificationID;
+				
+				$notificationInfo[$ID] = $result;
+				
+			}
+			
+			echo json_encode($notificationInfo);
 			//Notification processes here
 			//$_GET['user_id']
+<<<<<<< HEAD
 			?>
 				<p>This is how you print things</p>
 			<?php
@@ -232,6 +260,9 @@
 			?>
 			</table>
 			<?php
+=======
+			
+>>>>>>> 8b916c20b669f3e31a46efb61cafcb5c50667658
 		}
 		else if($method == "lab_select"){
 			$num = $_POST['lbn'];
