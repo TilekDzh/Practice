@@ -1,9 +1,7 @@
 <?php 
-	// TESTING COMMENT SECTION 
+	// TESTING COMMENT SECTION
 	function getConnection() {
-
-		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");
-		//$connection = mysqli_connect("localhost", "root" , "", "a7551670_auca");
+		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");	
 
 		return $connection;	
 	}
@@ -99,10 +97,10 @@
 			
 			try {
 			
-			print($title);
+			$query = "INSERT INTO notification(title,content) VALUES('$title','$content')";
+			mysqli_query($connection, $query);
+			
 			$query = "INSERT INTO notification(title,content) VALUES('$title','$content');";
-			$ss = mysqli_query($connection, $query);
-			print("$ss");			
 			//$addresses = explode(",",$addresses);
 			$userID = "";
 			$notificationID = "";
@@ -195,6 +193,10 @@
 			$userID = $_POST['id'];
 			$connection = getConnection();
 			
+			if(!$connection) {
+				return;
+			}
+			
 			$query = "SELECT notificationID,notification_status FROM usernotif WHERE userID = '$userID'";
 			$info = mysqli_query($connection,$query);
 			
@@ -207,7 +209,6 @@
 				$result = mysqli_query($connection,$query);
 				$result = mysqli_fetch_assoc($result);
 				
-				$notificationID = 1;
 				$ID = (string)$notificationID;
 				
 				$notificationInfo[$ID] = $result;
