@@ -305,7 +305,9 @@
 			<p><?=$_POST['course_code']?></p>
 			<p><?=$_POST['course_title']?></p>
 			<p><?=$_POST['course_desc']?></p>
+			<p><?=$_POST['course_lr']?></p>
 			<p><?=$_POST['lec']?></p>
+			<p><?=$_POST['course_lbr']?></p>
 			<p><?=$_POST['lab']?></p>
 			<p><?=$_POST['course_teacher']?></p>
 			<?php

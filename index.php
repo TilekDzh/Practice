@@ -71,6 +71,7 @@
 							<div class="input-field"><div>Course Code</div><input id="c_code" type="text" name="C_Code"></div>
 							<div class="input-field"><div>Course Title</div><input id="c_title" type="text" name="C_Title"></div>
 							<div class="input-field"><div>Course Description</div><input id="c_desc" type="text" name="C_Desc"></div>
+							<div class="input-field"><div>Lections rooms</div><input id="c_room_lec" type="text" name="C_Lec_room"></div>
 							<div class="input-field"><div>Select number of Lections</div>
 								<select name="lecs" id="lec_n">
 									<option value="1">1</option>
@@ -110,6 +111,7 @@
 									</table>
 								</div>
 							</div>
+							<div class="input-field"><div>Labs rooms</div><input id="c_room_lab" type="text" name="C_Lab_room"></div>
 							<div class="input-field"><div>Select number of Labs</div>
 								<select name="labs" id="lab_n">
 									<option value="1">1</option>

@@ -133,7 +133,8 @@ window.onload = function(){
 		var c_title = $('#c_title').val();
 		var c_desc = $('#c_desc').val();
 		var c_teacher = $('#c_teacher').val();
-
+		var c_rooms_lec = $('#c_room_lec').val();
+		var c_rooms_lab = $('#c_room_lab').val();
 		var lections = "";
 		var labs = "";
 
@@ -165,7 +166,7 @@ window.onload = function(){
 		$.ajax({
 			url: 'functions.php',
 			type: 'post',
-			data: {method: 'course_insert', course_id: c_id, course_code: c_code, course_title: c_title, course_desc: c_desc, lec: lections, lab: labs, course_teacher: c_teacher},
+			data: {method: 'course_insert', course_id: c_id, course_code: c_code, course_title: c_title, course_desc: c_desc, lec: lections, lab: labs, course_teacher: c_teacher, course_lr: c_rooms_lec, course_lbr: c_rooms_lab},
 			success: function(data){
 				$("#content_info").html(data);
 			}
