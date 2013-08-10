@@ -193,8 +193,96 @@
 			?>
 				<p>This is how you print things</p>
 			<?php
-			
 		}
+		else if($method == "lec_select"){
+			$num = $_POST['lcn'];
+			?>
+			<table>
+				<thead>
+					<tr>
+						<th><div>Day:</div></th>
+						<th><div>Time</div></th>
+					</tr>
+				</thead>
+			<?php
+			for($i = 0; $i < $num; $i++){
+				?>
+				<tr><td>
+				<select name="day" id="lec_day_<?=$i?>">
+					<option value="M">Monday</option>
+					<option value="T">Tuesday</option>
+					<option value="W">Wednesday</option>
+					<option value="Th">Thursday</option>
+					<option value="F">Friday</option>
+					<option value="S">Saturday</option>
+				</select></td><td>
+				<select name="time" id="lec_time_<?=$i?>">
+					<option value="8:00">8:00</option>
+					<option value="9:25">9:25</option>
+					<option value="10:50">10:50</option>
+					<option value="12:45">12:45</option>
+					<option value="14:10">14:10</option>
+					<option value="15:35">15:35</option>
+					<option value="17:00">17:00</option>
+					<option value="18:25">18:25</option>
+				</select></td>
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+			<?php
+		}
+		else if($method == "lab_select"){
+			$num = $_POST['lbn'];
+			?>
+			<table>
+				<thead>
+					<tr>
+						<th><div>Day:</div></th>
+						<th><div>Time</div></th>
+					</tr>
+				</thead>
+			<?php
+			for($i = 0; $i < $num; $i++){
+				?>
+				<tr><td>
+				<select name="day" id="lab_day_<?=$i?>">
+					<option value="M">Monday</option>
+					<option value="T">Tuesday</option>
+					<option value="W">Wednesday</option>
+					<option value="Th">Thursday</option>
+					<option value="F">Friday</option>
+					<option value="S">Saturday</option>
+				</select></td><td>
+				<select name="time" id="lab_time_<?=$i?>">
+					<option value="8:00">8:00</option>
+					<option value="9:25">9:25</option>
+					<option value="10:50">10:50</option>
+					<option value="12:45">12:45</option>
+					<option value="14:10">14:10</option>
+					<option value="15:35">15:35</option>
+					<option value="17:00">17:00</option>
+					<option value="18:25">18:25</option>
+				</select></td>
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+			<?php
+		}
+		else if($method == "course_insert"){
+			?>
+			<p><?=$_POST['course_id']?></p>
+			<p><?=$_POST['course_code']?></p>
+			<p><?=$_POST['course_title']?></p>
+			<p><?=$_POST['course_desc']?></p>
+			<p><?=$_POST['lec']?></p>
+			<p><?=$_POST['lab']?></p>
+			<p><?=$_POST['course_teacher']?></p>
+			<?php
+		}	
 	}
 
 

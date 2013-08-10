@@ -34,7 +34,7 @@ textarea{
 	display: block;
 	margin-bottom: 20px;
 }
-.input-field div{
+.input-field{
 	width: 150px;
 }
 #msg_title,
