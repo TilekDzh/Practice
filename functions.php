@@ -330,6 +330,14 @@
 			<?php
 		}
 		else if($method == "add_course"){
+			$connection = getConnection();
+			$userID = $_POST['user_id'];
+			$courseID = $_POST['course_id'];
+			
+			$query = "INSERT INTO user_courses(user_id,c_id) VALUES ('$userID','$courseID')";
+			
+			mysqli_query($connection,$query);
+			
 			?>
 			<p><?=$_POST['user_id']?></p>
 			<p><?=$_POST['course_id']?></p>
