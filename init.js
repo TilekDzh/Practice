@@ -54,7 +54,7 @@ window.onload = function(){
 	
 	$('#course_button').click(function(){
 		console.log('click')
-		var user_id = $("#profile").val();
+		var user_id = $("#c_user_id").val();
 		if(user_id != ""){
 			$.ajax({
 				url: 'functions.php',

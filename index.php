@@ -47,7 +47,7 @@
 					</div>
 					<div id="tabs-2">
 						<div>
-							<div>Enter User ID</div><input id="course" type="text" name="login">
+							<div>Enter User ID</div><input id="c_user_id" type="text" name="login">
 							<a id="course_button" href="#" class="classname">Submit</a>
 						</div>
 					</div>
