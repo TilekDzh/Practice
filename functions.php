@@ -217,7 +217,6 @@
 			echo json_encode($notificationInfo);
 			//Notification processes here
 			//$_GET['user_id']
-<<<<<<< HEAD
 			?>
 				<p>This is how you print things</p>
 			<?php
@@ -260,9 +259,6 @@
 			?>
 			</table>
 			<?php
-=======
-			
->>>>>>> 8b916c20b669f3e31a46efb61cafcb5c50667658
 		}
 		else if($method == "lab_select"){
 			$num = $_POST['lbn'];
