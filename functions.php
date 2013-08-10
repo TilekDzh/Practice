@@ -37,6 +37,32 @@
 
 			// DB COURSE INFO REQUEST
 			// USER ID IS IN $_POST['id']
+			
+			$userID = $_POST['id'];
+			$connection = getConnection();
+			
+			$query = "SELECT c_id FROM user_courses WHERE user_id = '$userID'";
+			
+			$result = mysqli_query($connection,$query);
+			
+			$coursesInfo = array();
+			while($row = mysqli_fetch_assoc($result))
+			{
+				$courseID = $row['c_id'];
+				$courseID = (string)$courseID;
+				
+				$query = "SELECT c_code,c_title,c_description,c_room_lec,c_room_lab,c_time_lec,c_time_lab,
+					c_teacher FROM course_info WHERE c_id = '$courseID'";
+					
+				$info = mysqli_query($connection,$query);
+				
+				$info = mysqli_fetch_assoc($info);
+				
+				$coursesInfo[$userID][$courseID] = $info;
+				
+			}
+			
+			echo json_encode($coursesInfo);
 			?>
 				<p>User course info was requested</p>
 				<p>User id is: <?=$_POST['id'] ?></p>
@@ -192,10 +218,6 @@
 
 			$userID = $_POST['id'];
 			$connection = getConnection();
-			
-			if(!$connection) {
-				return;
-			}
 			
 			$query = "SELECT notificationID,notification_status FROM usernotif WHERE userID = '$userID'";
 			$info = mysqli_query($connection,$query);
