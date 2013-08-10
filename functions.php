@@ -300,6 +300,23 @@
 			<?php
 		}
 		else if($method == "course_insert"){
+			$connection = getConnection();
+			
+			$courseID = $_POST['course_id'];
+			$courseCode = $_POST['course_code'];
+			$courseTitle = $_POST['course_title'];
+			$courseDescrip = $_POST['course_desc'];
+			$roomLec = $_POST['course_lr'];
+			$roomLab = $_POST['course_lbr'];
+			$lecTime = $_POST['lec'];
+			$labTime = $_POST['lab'];
+			$courseTeacher = $_POST['course_teacher'];
+			
+			$query = "INSERT INTO course_info(c_id,c_code,c_title,c_description,c_room_lec,c_room_lab,c_time_lec,c_time_lab,
+					c_teacher) VALUES ('$courseID','$courseCode','$courseTitle','$courseDescrip','$roomLec','$roomLab',
+					'$lecTime','$labTime','$courseTeacher')";
+			
+			mysqli_query($connection,$query);
 			?>
 			<p><?=$_POST['course_id']?></p>
 			<p><?=$_POST['course_code']?></p>
