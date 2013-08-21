@@ -5,6 +5,59 @@
 
 		return $connection;	
 	}
+	
+	function getRegId($name) {
+		$connection = getConnection();
+		
+		$id = "";
+		$result = mysqli_query($connection,"SELECT gcm_regid FROM gcm_users WHERE name = '$name'");
+		while($row = mysqli_fetch_assoc($result)) {
+			$id = $row['gcm_regid'];
+		}
+		
+		return $id;
+	}
+	
+	function sendNotification($message,$name) {
+		$data = "";
+		$regId = getRegId($name);
+		echo $message;
+		$data = array (
+			'type' => 'message',
+			'content' => $message
+		);
+	
+		$url = 'https://android.googleapis.com/gcm/send';
+				
+		$fields = array(
+				'registration_ids' => array($regId),
+				'data' => $data
+				);
+		
+		$headers = array(
+            'Authorization: key=AIzaSyAKLyrf4umPwx9moKO-_GMxRnS6_fJfvoc',
+            'Content-Type: application/json'
+        );
+		
+		$ch = curl_init();
+		
+		curl_setopt($ch, CURLOPT_URL, $url);
+ 
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+ 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+		$result = curl_exec($ch);
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+		
+		curl_close($ch);
+        echo $result;
+	}
+	
 
 	if(isset($_POST['method']) == true && empty($_POST['method'])==false){
 		$method = $_POST['method'];
@@ -116,9 +169,9 @@
 			
 			$title = strip_tags($_POST["title"]);
 			$title = htmlspecialchars($title);
-			$title = mysql_escape_string($title);
+
 			
-			//$addresses =  $_POST["addr"];
+			$addresses =  $_POST["addr"];
 			$content = $_POST['content'];
 			
 			try {
@@ -148,58 +201,8 @@
 				
 			}
 			
+			sendNotification($content,$addresses);
 			
-			
-			
-			
-			/*if(!strripos(",",$addresses))
-			{
-			
-			for($i = 0; $i < sizeof($addresses); ++$i) {
-					$userID = "";
-					$notificationID = "";
-					$result = mysqli_query($connection,"SELECT id FROM user WHERE name = '$addresses[$i]'");
-					while($row = mysqli_fetch_array($result))
-					{
-						$userID = $row['id']; 
-					}
-					
-					$result = mysqli_query($connection,"SELECT id FROM notification WHERE title = '$title'");
-					
-					while($row = mysqli_fetch_array($result))
-					{
-						$notificationID = $row['id']; 
-					}
-					
-					$status = "unread";
-					
-					$query = "INSERT INTO usernotif(userID,notificationID,notification_status) VALUES('$userID','$notificationID','$status')";
-					mysqli_query($connection, $query);
-				
-				}
-				}	
-				else
-				{
-						$userID = "";
-						$notificationID = "";
-						$result = mysqli_query($connection,"SELECT id FROM user WHERE name = '$addresses'");
-						while($row = mysqli_fetch_array($result))
-						{
-							$userID = $row['id']; 
-						}
-						
-						$result = mysqli_query($connection,"SELECT id FROM notification WHERE title = '$title'");
-						
-						while($row = mysqli_fetch_array($result))
-						{
-							$notificationID = $row['id']; 
-						}
-						
-						$status = "unread";
-						
-						$query = "INSERT INTO usernotif(userID,notificationID,notification_status) VALUES('$userID','$notificationID','$status')";
-						mysqli_query($connection, $query);
-				}*/
 				?>
 					<p>Mail Sending was requested</p>
 					<p>Title: <?=$_POST['title'] ?></p>
