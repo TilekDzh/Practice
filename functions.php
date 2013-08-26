@@ -2,9 +2,63 @@
 	// TESTING COMMENT SECTION
 	function getConnection() {
 		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");	
+		// $connection = mysqli_connect("fdb5.biz.nf","1492605_intouch","intouch","1492605_intouch");	
 
 		return $connection;	
 	}
+	
+	function getRegId($name) {
+		$connection = getConnection();
+		
+		$id = "";
+		$result = mysqli_query($connection,"SELECT gcm_regid FROM gcm_users WHERE name = '$name'");
+		while($row = mysqli_fetch_assoc($result)) {
+			$id = $row['gcm_regid'];
+		}
+		
+		return $id;
+	}
+	
+	function sendNotification($message,$name) {
+		$data = "";
+		$regId = getRegId($name);
+		echo $message;
+		$data = array (
+			'type' => 'message',
+			'content' => $message
+		);
+	
+		$url = 'https://android.googleapis.com/gcm/send';
+				
+		$fields = array(
+				'registration_ids' => array($regId),
+				'data' => $data
+				);
+		
+		$headers = array(
+            'Authorization: key=AIzaSyAKLyrf4umPwx9moKO-_GMxRnS6_fJfvoc',
+            'Content-Type: application/json'
+        );
+		
+		$ch = curl_init();
+		
+		curl_setopt($ch, CURLOPT_URL, $url);
+ 
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+ 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+		$result = curl_exec($ch);
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+		
+		curl_close($ch);
+        echo $result;
+	}
+	
 
 	if(isset($_POST['method']) == true && empty($_POST['method'])==false){
 		$method = $_POST['method'];
@@ -51,8 +105,8 @@
 				$courseID = $row['c_id'];
 				$courseID = (string)$courseID;
 				
-				$query = "SELECT c_code,c_title,c_description,c_room_lec,c_room_lab,c_time_lec,c_time_lab,
-					c_teacher FROM course_info WHERE c_id = '$courseID'";
+				$query = "SELECT c_code,c_title,c_description,c_time_lec,c_time_lab
+					 FROM course_info WHERE c_id = '$courseID'";
 					
 				$info = mysqli_query($connection,$query);
 				
@@ -127,9 +181,9 @@
 			
 			$title = strip_tags($_POST["title"]);
 			$title = htmlspecialchars($title);
-			$title = mysqli_escape_string($connection, $title);
+
 			
-			//$addresses =  $_POST["addr"];
+			$addresses =  $_POST["addr"];
 			$content = $_POST['content'];
 			
 			try {
@@ -137,7 +191,6 @@
 			$query = "INSERT INTO notification(title,content) VALUES('$title','$content')";
 			mysqli_query($connection, $query);
 			
-			$query = "INSERT INTO notification(title,content) VALUES('$title','$content');";
 			//$addresses = explode(",",$addresses);
 			$userID = "";
 			$notificationID = "";
@@ -160,58 +213,8 @@
 				
 			}
 			
+			sendNotification($content,$addresses);
 			
-			
-			
-			
-			/*if(!strripos(",",$addresses))
-			{
-			
-			for($i = 0; $i < sizeof($addresses); ++$i) {
-					$userID = "";
-					$notificationID = "";
-					$result = mysqli_query($connection,"SELECT id FROM user WHERE name = '$addresses[$i]'");
-					while($row = mysqli_fetch_array($result))
-					{
-						$userID = $row['id']; 
-					}
-					
-					$result = mysqli_query($connection,"SELECT id FROM notification WHERE title = '$title'");
-					
-					while($row = mysqli_fetch_array($result))
-					{
-						$notificationID = $row['id']; 
-					}
-					
-					$status = "unread";
-					
-					$query = "INSERT INTO usernotif(userID,notificationID,notification_status) VALUES('$userID','$notificationID','$status')";
-					mysqli_query($connection, $query);
-				
-				}
-				}	
-				else
-				{
-						$userID = "";
-						$notificationID = "";
-						$result = mysqli_query($connection,"SELECT id FROM user WHERE name = '$addresses'");
-						while($row = mysqli_fetch_array($result))
-						{
-							$userID = $row['id']; 
-						}
-						
-						$result = mysqli_query($connection,"SELECT id FROM notification WHERE title = '$title'");
-						
-						while($row = mysqli_fetch_array($result))
-						{
-							$notificationID = $row['id']; 
-						}
-						
-						$status = "unread";
-						
-						$query = "INSERT INTO usernotif(userID,notificationID,notification_status) VALUES('$userID','$notificationID','$status')";
-						mysqli_query($connection, $query);
-				}*/
 				?>
 					<p>Mail Sending was requested</p>
 					<p>Title: <?=$_POST['title'] ?></p>
@@ -261,32 +264,41 @@
 			<table>
 				<thead>
 					<tr>
+						<th><div>Room:</div></th>
 						<th><div>Day:</div></th>
-						<th><div>Time</div></th>
+						<th><div>Time:</div></th>
+						<th><div>Teacher:</div></th>
 					</tr>
 				</thead>
 			<?php
 			for($i = 0; $i < $num; $i++){
 				?>
-				<tr><td>
-				<select name="day" id="lec_day_<?=$i?>">
-					<option value="M">Monday</option>
-					<option value="T">Tuesday</option>
-					<option value="W">Wednesday</option>
-					<option value="Th">Thursday</option>
-					<option value="F">Friday</option>
-					<option value="S">Saturday</option>
-				</select></td><td>
-				<select name="time" id="lec_time_<?=$i?>">
-					<option value="8:00">8:00</option>
-					<option value="9:25">9:25</option>
-					<option value="10:50">10:50</option>
-					<option value="12:45">12:45</option>
-					<option value="14:10">14:10</option>
-					<option value="15:35">15:35</option>
-					<option value="17:00">17:00</option>
-					<option value="18:25">18:25</option>
-				</select></td>
+				<tr>
+					<td>
+						<input id="lec_r_<?=$i?>"type="text">
+					</td>
+					<td>
+					<select name="day" id="lec_day_<?=$i?>">
+						<option value="M">Monday</option>
+						<option value="T">Tuesday</option>
+						<option value="W">Wednesday</option>
+						<option value="Th">Thursday</option>
+						<option value="F">Friday</option>
+						<option value="S">Saturday</option>
+					</select></td><td>
+					<select name="time" id="lec_time_<?=$i?>">
+						<option value="8:00">8:00</option>
+						<option value="9:25">9:25</option>
+						<option value="10:50">10:50</option>
+						<option value="12:45">12:45</option>
+						<option value="14:10">14:10</option>
+						<option value="15:35">15:35</option>
+						<option value="17:00">17:00</option>
+						<option value="18:25">18:25</option>
+					</select></td>
+					<td>
+					<input id="lec_t_<?=$i?>" type="text">
+				</td>
 				</tr>
 				<?php
 			}
@@ -300,32 +312,43 @@
 			<table>
 				<thead>
 					<tr>
+						<th><div>Room:</div></th>
 						<th><div>Day:</div></th>
-						<th><div>Time</div></th>
+						<th><div>Time:</div></th>
+						<th><div>Teacher:</div></th>
 					</tr>
 				</thead>
 			<?php
 			for($i = 0; $i < $num; $i++){
 				?>
-				<tr><td>
-				<select name="day" id="lab_day_<?=$i?>">
-					<option value="M">Monday</option>
-					<option value="T">Tuesday</option>
-					<option value="W">Wednesday</option>
-					<option value="Th">Thursday</option>
-					<option value="F">Friday</option>
-					<option value="S">Saturday</option>
-				</select></td><td>
-				<select name="time" id="lab_time_<?=$i?>">
-					<option value="8:00">8:00</option>
-					<option value="9:25">9:25</option>
-					<option value="10:50">10:50</option>
-					<option value="12:45">12:45</option>
-					<option value="14:10">14:10</option>
-					<option value="15:35">15:35</option>
-					<option value="17:00">17:00</option>
-					<option value="18:25">18:25</option>
-				</select></td>
+				<tr>
+					<td>
+						<input id="lab_r_<?=$i?>" type="text">
+					</td>
+					<td>
+					<select name="day" id="lab_day_<?=$i?>">
+						<option value="M">Monday</option>
+						<option value="T">Tuesday</option>
+						<option value="W">Wednesday</option>
+						<option value="Th">Thursday</option>
+						<option value="F">Friday</option>
+						<option value="S">Saturday</option>
+					</select>
+					</td>
+					<td>
+					<select name="time" id="lab_time_<?=$i?>">
+						<option value="8:00">8:00</option>
+						<option value="9:25">9:25</option>
+						<option value="10:50">10:50</option>
+						<option value="12:45">12:45</option>
+						<option value="14:10">14:10</option>
+						<option value="15:35">15:35</option>
+						<option value="17:00">17:00</option>
+						<option value="18:25">18:25</option>
+					</select></td>
+					<td>
+						<input id="lab_t_<?=$i?>" type="text">
+					</td>
 				</tr>
 				<?php
 			}
@@ -340,15 +363,12 @@
 			$courseCode = $_POST['course_code'];
 			$courseTitle = $_POST['course_title'];
 			$courseDescrip = $_POST['course_desc'];
-			$roomLec = $_POST['course_lr'];
-			$roomLab = $_POST['course_lbr'];
-			$lecTime = $_POST['lec'];
-			$labTime = $_POST['lab'];
-			$courseTeacher = $_POST['course_teacher'];
+			$lecTime = json_encode($_POST['lec']);
+			$labTime = json_encode($_POST['lab']);
 			
-			$query = "INSERT INTO course_info(c_id,c_code,c_title,c_description,c_room_lec,c_room_lab,c_time_lec,c_time_lab,
-					c_teacher) VALUES ('$courseID','$courseCode','$courseTitle','$courseDescrip','$roomLec','$roomLab',
-					'$lecTime','$labTime','$courseTeacher')";
+			$query = "INSERT INTO course_info(c_id,c_code,c_title,c_description,c_time_lec,c_time_lab
+					) VALUES ('$courseID','$courseCode','$courseTitle','$courseDescrip',
+					'$lecTime','$labTime')";
 			
 			mysqli_query($connection,$query);
 			?>
@@ -356,11 +376,8 @@
 			<p><?=$_POST['course_code']?></p>
 			<p><?=$_POST['course_title']?></p>
 			<p><?=$_POST['course_desc']?></p>
-			<p><?=$_POST['course_lr']?></p>
-			<p><?=$_POST['lec']?></p>
-			<p><?=$_POST['course_lbr']?></p>
-			<p><?=$_POST['lab']?></p>
-			<p><?=$_POST['course_teacher']?></p>
+			<p><?=json_encode($_POST['lec'])?></p>
+			<p><?=json_encode($_POST['lab'])?></p>
 			<?php
 		}
 		else if($method == "add_course"){

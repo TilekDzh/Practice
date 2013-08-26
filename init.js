@@ -135,38 +135,40 @@ window.onload = function(){
 		var c_teacher = $('#c_teacher').val();
 		var c_rooms_lec = $('#c_room_lec').val();
 		var c_rooms_lab = $('#c_room_lab').val();
-		var lections = "";
-		var labs = "";
+		var lections = [];
+		var labs = [];
 
 		// Formatting string for leactures 
 		// example ( M.9:25,W.15:25 ) etc
 		for(var i = 0; i < $('#lec_n').val(); i++){
-			if(i != 0){
-				lections+=',';
-				lections+= $('#lec_day_'+i).val()+'.'+$('#lec_time_'+i).val();
-			}
-			else{
-				lections+= $('#lec_day_'+i).val()+'.'+$('#lec_time_'+i).val();
+			var lection = {
+				lec_room : $('#lec_r_'+i).val(),
+				lec_day : $('#lec_day_'+i).val(),
+				lec_time : $('#lec_time_'+i).val(),
+				lec_teacher : $('#lec_t_'+i).val()
 			}
 		}
+		lections.push(lection);
 		// Formatting string for labs
 		for(var i = 0; i < $('#lab_n').val(); i++){
-			if(i != 0){
-				labs+=',';
-				labs+= $('#lab_day_'+i).val()+'.'+$('#lab_time_'+i).val();
+			var lab = {
+				lab_room : $('#lab_r_'+i).val(),
+				lab_day : $('#lab_day_'+i).val(),
+				lab_time : $('#lab_time_'+i).val(),
+				lab_teacher : $('#lab_t_'+i).val()	
 			}
-			else{
-				labs+= $('#lab_day_'+i).val()+'.'+$('#lab_time_'+i).val();
-			}
+			labs.push(lab);
 		}
 
 		// Strings ready for DB insertion
+		// lections = JSON.stringify(lections);
+		// labs = JSON.stringify(labs);
 		console.log(lections);
 		console.log(labs);
 		$.ajax({
 			url: 'functions.php',
 			type: 'post',
-			data: {method: 'course_insert', course_id: c_id, course_code: c_code, course_title: c_title, course_desc: c_desc, lec: lections, lab: labs, course_teacher: c_teacher, course_lr: c_rooms_lec, course_lbr: c_rooms_lab},
+			data: {method: 'course_insert', course_id: c_id, course_code: c_code, course_title: c_title, course_desc: c_desc, lec: lections, lab: labs },
 			success: function(data){
 				$("#content_info").html(data);
 			}

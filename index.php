@@ -72,7 +72,6 @@
 							<div class="input-field"><div>Course Code</div><input id="c_code" type="text" name="C_Code"></div>
 							<div class="input-field"><div>Course Title</div><input id="c_title" type="text" name="C_Title"></div>
 							<div class="input-field"><div>Course Description</div><input id="c_desc" type="text" name="C_Desc"></div>
-							<div class="input-field"><div>Lections rooms</div><input id="c_room_lec" type="text" name="C_Lec_room"></div>
 							<div class="input-field"><div>Select number of Lections</div>
 								<select name="lecs" id="lec_n">
 									<option value="1">1</option>
@@ -85,34 +84,45 @@
 									<table>
 										<thead>
 											<tr>
+												<th><div>Room:</div></th>
 												<th><div>Day:</div></th>
-												<th><div>Time</div></th>
+												<th><div>Time:</div></th>
+												<th><div>Teacher:</div></th>
 											</tr>
 										</thead>
-										<tr><td>
-										<select name="day" id="lec_day_0">
-											<option value="M">Monday</option>
-											<option value="T">Tuesday</option>
-											<option value="W">Wednesday</option>
-											<option value="Th">Thursday</option>
-											<option value="F">Friday</option>
-											<option value="S">Saturday</option>
-										</select></td><td>
-										<select name="time" id="lec_time_0">
-											<option value="8:00">8:00</option>
-											<option value="9:25">9:25</option>
-											<option value="10:50">10:50</option>
-											<option value="12:45">12:45</option>
-											<option value="14:10">14:10</option>
-											<option value="15:35">15:35</option>
-											<option value="17:00">17:00</option>
-											<option value="18:25">18:25</option>
-										</select></td>
+										<tr>
+											<td>
+												<input id="lec_r_0"type="text">
+											</td>
+											<td>
+												<select name="day" id="lec_day_0">
+													<option value="M">Monday</option>
+													<option value="T">Tuesday</option>
+													<option value="W">Wednesday</option>
+													<option value="Th">Thursday</option>
+													<option value="F">Friday</option>
+													<option value="S">Saturday</option>
+												</select>
+											</td>
+											<td>
+												<select name="time" id="lec_time_0">
+													<option value="8:00">8:00</option>
+													<option value="9:25">9:25</option>
+													<option value="10:50">10:50</option>
+													<option value="12:45">12:45</option>
+													<option value="14:10">14:10</option>
+													<option value="15:35">15:35</option>
+													<option value="17:00">17:00</option>
+													<option value="18:25">18:25</option>
+												</select>
+											</td>
+											<td>
+												<input id="lec_t_0" type="text">
+											</td>
 										</tr>
 									</table>
 								</div>
 							</div>
-							<div class="input-field"><div>Labs rooms</div><input id="c_room_lab" type="text" name="C_Lab_room"></div>
 							<div class="input-field"><div>Select number of Labs</div>
 								<select name="labs" id="lab_n">
 									<option value="1">1</option>
@@ -125,34 +135,45 @@
 									<table>
 										<thead>
 											<tr>
+												<th><div>Room:</div></th>
 												<th><div>Day:</div></th>
-												<th><div>Time</div></th>
+												<th><div>Time:</div></th>
+												<th><div>Teacher:</div></th>
 											</tr>
 										</thead>
-										<tr><td>
-										<select name="day" id="lab_day_0">
-											<option value="M">Monday</option>
-											<option value="T">Tuesday</option>
-											<option value="W">Wednesday</option>
-											<option value="Th">Thursday</option>
-											<option value="F">Friday</option>
-											<option value="S">Saturday</option>
-										</select></td><td>
-										<select name="time" id="lab_time_0">
-											<option value="8:00">8:00</option>
-											<option value="9:25">9:25</option>
-											<option value="10:50">10:50</option>
-											<option value="12:45">12:45</option>
-											<option value="14:10">14:10</option>
-											<option value="15:35">15:35</option>
-											<option value="17:00">17:00</option>
-											<option value="18:25">18:25</option>
-										</select></td>
+										<tr>
+											<td>
+												<input id="lab_r_0" type="text">
+											</td>
+											<td>
+												<select name="day" id="lab_day_0">
+													<option value="M">Monday</option>
+													<option value="T">Tuesday</option>
+													<option value="W">Wednesday</option>
+													<option value="Th">Thursday</option>
+													<option value="F">Friday</option>
+													<option value="S">Saturday</option>
+												</select>
+											</td>
+											<td>
+												<select name="time" id="lab_time_0">
+													<option value="8:00">8:00</option>
+													<option value="9:25">9:25</option>
+													<option value="10:50">10:50</option>
+													<option value="12:45">12:45</option>
+													<option value="14:10">14:10</option>
+													<option value="15:35">15:35</option>
+													<option value="17:00">17:00</option>
+													<option value="18:25">18:25</option>
+												</select>
+											</td>
+											<td>
+												<input id="lab_t_0" type="text">
+											</td>
 										</tr>
 									</table>
 								</div>
 							</div>
-							<div class="input-field"><div>Teacher(s):</div><input id="c_teacher" type="text" name="Teachers"></div>
 						</div>
 						<a id="course_insert" href="#" class="classname">Add</a> 
 					</div>
