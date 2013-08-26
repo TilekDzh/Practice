@@ -108,9 +108,18 @@
 				$query = "SELECT c_code,c_title,c_description,c_time_lec,c_time_lab
 					 FROM course_info WHERE c_id = '$courseID'";
 					
+				$infoarr = array();
 				$info = mysqli_query($connection,$query);
-				
-				$info = mysqli_fetch_assoc($info);
+				// $info = mysqli_fetch_assoc($info);
+				while($row = mysqli_fetch_assoc($info)){
+					$tmparr = array();
+					array_push($tmparr, $row['c_code']);
+					array_push($tmparr, $row['c_title']);
+					array_push($tmparr, $row['c_description']);
+					array_push($tmparr, json_decode($row['c_time_lec']));
+					array_push($tmparr, json_decode($row['c_time_lab']));
+					array_push($infoarr, $tmparr);
+				}
 				$query = "SELECT name, surname FROM user WHERE id IN (SELECT id FROM user_courses WHERE c_id = '$courseID')";
 				$stud = mysqli_query($connection, $query);
 				$stud = mysqli_fetch_assoc($stud);
@@ -121,7 +130,7 @@
 				while($row = mysqli_fetch_assoc($stud)){
 					array_push($arr, $row);
 				}
-				$coursesInfo[$userID][$courseID] = $info;
+				$coursesInfo[$userID][$courseID] = $infoarr;
 				$coursesInfo[$userID][$courseID]['group'] = $arr;
 				
 			}
@@ -365,19 +374,22 @@
 			$courseDescrip = $_POST['course_desc'];
 			$lecTime = json_encode($_POST['lec']);
 			$labTime = json_encode($_POST['lab']);
+			// $lecTime = mysqli_real_escape_string($connection, $lecTime);
+			// $labTime = mysqli_real_escape_string($connection, $labTime);
 			
 			$query = "INSERT INTO course_info(c_id,c_code,c_title,c_description,c_time_lec,c_time_lab
 					) VALUES ('$courseID','$courseCode','$courseTitle','$courseDescrip',
 					'$lecTime','$labTime')";
 			
 			mysqli_query($connection,$query);
+
 			?>
 			<p><?=$_POST['course_id']?></p>
 			<p><?=$_POST['course_code']?></p>
 			<p><?=$_POST['course_title']?></p>
 			<p><?=$_POST['course_desc']?></p>
-			<p><?=json_encode($_POST['lec'])?></p>
-			<p><?=json_encode($_POST['lab'])?></p>
+			<p><?=$lecTime?></p>
+			<p><?=$labTime?></p>
 			<?php
 		}
 		else if($method == "add_course"){
