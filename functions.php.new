@@ -5,6 +5,59 @@
 
 		return $connection;	
 	}
+	
+	function getRegId($name) {
+		$connection = getConnection();
+		
+		$id = "";
+		$result = mysqli_query($connection,"SELECT gcm_regid FROM gcm_users WHERE name = '$name'");
+		while($row = mysqli_fetch_assoc($result)) {
+			$id = $row['gcm_regid'];
+		}
+		
+		return $id;
+	}
+	
+	function sendNotification($message,$name) {
+		$data = "";
+		$regId = getRegId($name);
+		echo $message;
+		$data = array (
+			'type' => 'message',
+			'content' => $message
+		);
+	
+		$url = 'https://android.googleapis.com/gcm/send';
+				
+		$fields = array(
+				'registration_ids' => array($regId),
+				'data' => $data
+				);
+		
+		$headers = array(
+            'Authorization: key=AIzaSyAKLyrf4umPwx9moKO-_GMxRnS6_fJfvoc',
+            'Content-Type: application/json'
+        );
+		
+		$ch = curl_init();
+		
+		curl_setopt($ch, CURLOPT_URL, $url);
+ 
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+ 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+		$result = curl_exec($ch);
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+		
+		curl_close($ch);
+        echo $result;
+	}
+	
 
 	if(isset($_POST['method']) == true && empty($_POST['method'])==false){
 		$method = $_POST['method'];
@@ -41,39 +94,34 @@
 			$userID = $_POST['id'];
 			$connection = getConnection();
 			
-			$query = "SELECT c_id FROM user_courses WHERE user_id = '$userID'";
+			// $query = "SELECT c_id FROM user_courses WHERE user_id = '$userID'";
 			
-			$result = mysqli_query($connection,$query);
+			// $result = mysqli_query($connection,$query);
 			
-			$coursesInfo = array();
-			while($row = mysqli_fetch_assoc($result))
-			{
-				$courseID = $row['c_id'];
-				$courseID = (string)$courseID;
+			// $coursesInfo = array();
+			// while($row = mysqli_fetch_assoc($result))
+			// {
+			// 	$courseID = $row['c_id'];
+			// 	$courseID = (string)$courseID;
 				
-				$query = "SELECT c_code,c_title,c_description,c_room_lec,c_room_lab,c_time_lec,c_time_lab,
-					c_teacher FROM course_info WHERE c_id = '$courseID'";
+				// $query = "SELECT c_code,c_title,c_description,c_room_lec,c_room_lab,c_time_lec,c_time_lab,
+				// 	c_teacher FROM course_info WHERE c_id = '$courseID'";
 					
-				$info = mysqli_query($connection,$query);
+				// $info = mysqli_query($connection,$query);
 				
-				$info = mysqli_fetch_assoc($info);
-				$query = "SELECT name, surname FROM user WHERE id IN (SELECT id FROM user_courses WHERE c_id = '$courseID')";
-				$stud = mysqli_query($connection, $query);
-				$stud = mysqli_fetch_assoc($stud);
+				// $info = mysqli_fetch_assoc($info);
 
-				$arr = array();
-				$query = "SELECT name, surname FROM user WHERE id IN (SELECT user_id FROM user_courses WHERE c_id = '$courseID')";
-				$stud = mysqli_query($connection, $query);
-				while($row = mysqli_fetch_assoc($stud)){
-					array_push($arr, $row);
-				}
-				$coursesInfo[$userID][$courseID] = $info;
-				$coursesInfo[$userID][$courseID]['group'] = $arr;
 				
-			}
+				// $coursesInfo[$userID][$courseID] = $info;
+				
+				
+			// }
+			$query = "SELECT name, surname FROM user WHERE id IN (SELECT id FROM user_courses WHERE c_id = 1)";
+			$stud = mysql_query($connection, $query);
+			$stud = mysqli_fetch_assoc($stud);
+			$res = $stud;
 			
-			
-			echo json_encode($coursesInfo);
+			echo json_encode($res);
 			?>
 				<p>User course info was requested</p>
 				<p>User id is: <?=$_POST['id'] ?></p>
@@ -127,9 +175,9 @@
 			
 			$title = strip_tags($_POST["title"]);
 			$title = htmlspecialchars($title);
-			$title = mysqli_escape_string($connection, $title);
+
 			
-			//$addresses =  $_POST["addr"];
+			$addresses =  $_POST["addr"];
 			$content = $_POST['content'];
 			
 			try {
@@ -137,7 +185,6 @@
 			$query = "INSERT INTO notification(title,content) VALUES('$title','$content')";
 			mysqli_query($connection, $query);
 			
-			$query = "INSERT INTO notification(title,content) VALUES('$title','$content');";
 			//$addresses = explode(",",$addresses);
 			$userID = "";
 			$notificationID = "";
@@ -160,58 +207,8 @@
 				
 			}
 			
+			sendNotification($content,$addresses);
 			
-			
-			
-			
-			/*if(!strripos(",",$addresses))
-			{
-			
-			for($i = 0; $i < sizeof($addresses); ++$i) {
-					$userID = "";
-					$notificationID = "";
-					$result = mysqli_query($connection,"SELECT id FROM user WHERE name = '$addresses[$i]'");
-					while($row = mysqli_fetch_array($result))
-					{
-						$userID = $row['id']; 
-					}
-					
-					$result = mysqli_query($connection,"SELECT id FROM notification WHERE title = '$title'");
-					
-					while($row = mysqli_fetch_array($result))
-					{
-						$notificationID = $row['id']; 
-					}
-					
-					$status = "unread";
-					
-					$query = "INSERT INTO usernotif(userID,notificationID,notification_status) VALUES('$userID','$notificationID','$status')";
-					mysqli_query($connection, $query);
-				
-				}
-				}	
-				else
-				{
-						$userID = "";
-						$notificationID = "";
-						$result = mysqli_query($connection,"SELECT id FROM user WHERE name = '$addresses'");
-						while($row = mysqli_fetch_array($result))
-						{
-							$userID = $row['id']; 
-						}
-						
-						$result = mysqli_query($connection,"SELECT id FROM notification WHERE title = '$title'");
-						
-						while($row = mysqli_fetch_array($result))
-						{
-							$notificationID = $row['id']; 
-						}
-						
-						$status = "unread";
-						
-						$query = "INSERT INTO usernotif(userID,notificationID,notification_status) VALUES('$userID','$notificationID','$status')";
-						mysqli_query($connection, $query);
-				}*/
 				?>
 					<p>Mail Sending was requested</p>
 					<p>Title: <?=$_POST['title'] ?></p>
