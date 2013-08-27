@@ -160,7 +160,10 @@
 			try {
 				$query = "INSERT INTO user(name, surname, login, password) VALUES ('$name', '$surname', '$login', '$pass')";
 				mysqli_query($connection, $query);
-
+				$lastid = mysqli_insert_id($connection);
+				$user_token = md5($pass).md5($login);
+				$query = "INSERT into user_tokens (user_id ,  user_token, created) VALUES ('$lastid', '$user_token',  now())";
+				mysqli_query($connection, $query);
 			?>
 				
 				<p>QUERY: <?= $query?></p>
