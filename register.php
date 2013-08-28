@@ -99,7 +99,7 @@
 				$registration_id = $_POST["regId"];
 				
 				storeUser($registration_id,$name,$password);
-	} else if (!isset($_POST["type"]) && !isset($_POST["regId"]) && isset($_POST["names"])) {
+	} else if (isset($_POST["names"])) {
 			$receivers = $_POST["names"];
 			$gcm_regIds = getGcmRegIds($receivers);
 			
