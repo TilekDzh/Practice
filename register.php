@@ -1,8 +1,20 @@
 <?php
 	function getConnection() {
-		$connection = mysqli_connect("mysql6.000webhost.com", "a7551670_auca" , "rootAUCA2014", "a7551670_auca");	
+		$connection = mysqli_connect("localhost", "root" , "", "mydatabase");	
 
 		return $connection;	
+	}
+	
+	function getGcmRegIds($receivers) {
+		$connection = getConnection();
+		$result = mysqli_query($connection,"SELECT gcm_regid FROM gcm_users WHERE name IN ('$receivers')");
+		
+		$gcm_regids = array();
+		while($row = mysqli_fetch_assoc($result)) {
+			array_push($gcm_regids,$row['gcm_regid'];
+		}
+		
+		return $gcm_regids;
 	}
 	
 	function getRegId() {
@@ -87,7 +99,12 @@
 				$registration_id = $_POST["regId"];
 				
 				storeUser($registration_id,$name,$password);
-	}  else {
+	} else if (!isset($_POST["type"]) && !isset($_POST["regId"]) && isset($_POST["names"])) {
+			$receivers = $_POST["names"];
+			$gcm_regIds = getGcmRegIds($receivers);
+			
+			return $gcm_regIds;
+	} else {
 		$registration_id = $_POST["regId"];
 		$type = $_POST["type"];
 		
