@@ -333,15 +333,12 @@
 			$courseCode = $_POST['course_code'];
 			$courseTitle = $_POST['course_title'];
 			$courseDescrip = $_POST['course_desc'];
-			$roomLec = $_POST['course_lr'];
-			$roomLab = $_POST['course_lbr'];
-			$lecTime = $_POST['lec'];
-			$labTime = $_POST['lab'];
-			$courseTeacher = $_POST['course_teacher'];
+	        $lecTime = json_encode($_POST['lec']);
+			$labTime = json_encode($_POST['lab']);
 			
-			$query = "INSERT INTO course_info(c_id,c_code,c_title,c_description,c_room_lec,c_room_lab,c_time_lec,c_time_lab,
-					c_teacher) VALUES ('$courseID','$courseCode','$courseTitle','$courseDescrip','$roomLec','$roomLab',
-					'$lecTime','$labTime','$courseTeacher')";
+			$query = "INSERT INTO course_info(c_id,c_code,c_title,c_description,c_time_lec,c_time_lab
+											) VALUES ('$courseID','$courseCode','$courseTitle','$courseDescrip',
+											'$lecTime','$labTime')";
 			
 			mysqli_query($connection,$query);
 			?>
@@ -349,11 +346,8 @@
 			<p><?=$_POST['course_code']?></p>
 			<p><?=$_POST['course_title']?></p>
 			<p><?=$_POST['course_desc']?></p>
-			<p><?=$_POST['course_lr']?></p>
-			<p><?=$_POST['lec']?></p>
-			<p><?=$_POST['course_lbr']?></p>
-			<p><?=$_POST['lab']?></p>
-			<p><?=$_POST['course_teacher']?></p>
+			<p><?=json_encode($_POST['lec'])?></p>
+     		<p><?=json_encode($_POST['lab'])?></p>
 			<?php
 		}
 		else if($method == "add_course"){
