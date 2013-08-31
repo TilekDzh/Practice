@@ -5,17 +5,6 @@
 		return $connection;	
 	}
 	
-	function getGcmRegIds($receivers) {
-		$connection = getConnection();
-		$result = mysqli_query($connection,"SELECT gcm_regid FROM gcm_users WHERE name IN ('$receivers')");
-		
-		$gcm_regids = array();
-		while($row = mysqli_fetch_assoc($result)) {
-			array_push($gcm_regids,$row['gcm_regid'];
-		}
-		
-		return $gcm_regids;
-	}
 	
 	function getRegId() {
 		$connection = getConnection();
@@ -99,11 +88,6 @@
 				$registration_id = $_POST["regId"];
 				
 				storeUser($registration_id,$name,$password);
-	} else if (isset($_POST["names"])) {
-			$receivers = $_POST["names"];
-			$gcm_regIds = getGcmRegIds($receivers);
-			
-			return $gcm_regIds;
 	} else {
 		$registration_id = $_POST["regId"];
 		$type = $_POST["type"];
