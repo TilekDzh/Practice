@@ -186,10 +186,11 @@ window.onload = function(){
 			}
 		});
 	});
-	$('get_group_info').click(function(){
-		var c_id = $('group_cid').val();
+	$('#group').click(function(){
+		console.log("call for groups");
+		var c_id = $('#group_cid').val();
 		$.ajax({
-			url: 'functins.php',
+			url: 'functions.php',
 			type: 'post',
 			data: {method: 'get_group_info', course_id: c_id},
 			success: function(data){

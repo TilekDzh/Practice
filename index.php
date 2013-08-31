@@ -187,9 +187,9 @@
 					</div>
 					<div id="tabs-7">
 						<div>
-							<div class="input-field"><div>Course ID</div><input id="group_cid" type="text" name="c_id"></div>
+							<div class="input-field"><div>Course ID</div><input id="group_cid" type="text" name="group_cid_name"></div>
 						</div>
-						<a id="get_group_info" href="#" class="classname">Add</a> 
+						<a id="group" href="#" class="classname">Add</a> 
 					</div>
 				</div>
 			</div>

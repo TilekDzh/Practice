@@ -402,13 +402,13 @@
 		else if($method == "get_group_info"){
 			$connection = getConnection();
 			$course_id = $_POST['course_id'];
-			$query = "SELECT name, surname FROM user WHERE id in (SELECT student_id FROM groups WHERE course_id = '$course_id')"
-			$result = mysqli_query($query);
+			$query = "SELECT name, surname FROM user WHERE id IN (SELECT student_id FROM groups WHERE course_id = '$course_id')";  //
+			$result = mysqli_query($connection,$query);
 			$students = array();
 			while($row = mysqli_fetch_assoc($result)){
 				array_push($students, $row);
 			}
-			$group_info[$course_id] = $students;
+			$group_info[$course_id]['students'] = $students;
 
 			echo json_encode($group_info);
 		}
