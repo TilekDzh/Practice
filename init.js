@@ -186,4 +186,15 @@ window.onload = function(){
 			}
 		});
 	});
+	$('get_group_info').click(function(){
+		var c_id = $('group_cid').val();
+		$.ajax({
+			url: 'functins.php',
+			type: 'post',
+			data: {method: 'get_group_info', course_id: c_id},
+			success: function(data){
+				$("#content_info").html(data);
+			}
+		});
+	});
 }

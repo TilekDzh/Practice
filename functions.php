@@ -101,6 +101,8 @@
 			$coursesInfo = array();
 			
 			$courses = array();
+
+			$infoarr = array();
 			
 			while($row = mysqli_fetch_assoc($result))
 			{
@@ -112,11 +114,24 @@
 				$info = mysqli_query($connection,$query);
 				
 				$info = mysqli_fetch_assoc($info);
+				$info['c_time_lec'] = json_decode($info['c_time_lec']);
+				$info['c_time_lab'] = json_decode($info['c_time_lab']);
 				
 				array_push($courses,$info);
 				
 			}
+			// $query = "SELECT name, surname FROM user WHERE id IN (SELECT id FROM user_courses WHERE c_id = '$courseID')";
+			// $stud = mysqli_query($connection, $query);
+			// $stud = mysqli_fetch_assoc($stud);
+
+			// $arr = array();
+			// $query = "SELECT name, surname FROM user WHERE id IN (SELECT user_id FROM user_courses WHERE c_id = '$courseID')";
+			// $stud = mysqli_query($connection, $query);
+			// while($row = mysqli_fetch_assoc($stud)){
+			// 	array_push($arr, $row);
+			// }
 			$coursesInfo[$userID] = $courses;
+			// $coursesInfo[$userID]['group'] = $arr;
 			echo json_encode($coursesInfo);
 			?>
 				<p>User course info was requested</p>
@@ -254,32 +269,41 @@
 			<table>
 				<thead>
 					<tr>
+						<th><div>Room:</div></th>
 						<th><div>Day:</div></th>
-						<th><div>Time</div></th>
+						<th><div>Time:</div></th>
+						<th><div>Teacher:</div></th>
 					</tr>
 				</thead>
 			<?php
 			for($i = 0; $i < $num; $i++){
 				?>
-				<tr><td>
-				<select name="day" id="lec_day_<?=$i?>">
-					<option value="M">Monday</option>
-					<option value="T">Tuesday</option>
-					<option value="W">Wednesday</option>
-					<option value="Th">Thursday</option>
-					<option value="F">Friday</option>
-					<option value="S">Saturday</option>
-				</select></td><td>
-				<select name="time" id="lec_time_<?=$i?>">
-					<option value="8:00">8:00</option>
-					<option value="9:25">9:25</option>
-					<option value="10:50">10:50</option>
-					<option value="12:45">12:45</option>
-					<option value="14:10">14:10</option>
-					<option value="15:35">15:35</option>
-					<option value="17:00">17:00</option>
-					<option value="18:25">18:25</option>
-				</select></td>
+				<tr>
+					<td>
+						<input id="lec_r_<?=$i?>"type="text">
+					</td>
+					<td>
+					<select name="day" id="lec_day_<?=$i?>">
+						<option value="M">Monday</option>
+						<option value="T">Tuesday</option>
+						<option value="W">Wednesday</option>
+						<option value="Th">Thursday</option>
+						<option value="F">Friday</option>
+						<option value="S">Saturday</option>
+					</select></td><td>
+					<select name="time" id="lec_time_<?=$i?>">
+						<option value="8:00">8:00</option>
+						<option value="9:25">9:25</option>
+						<option value="10:50">10:50</option>
+						<option value="12:45">12:45</option>
+						<option value="14:10">14:10</option>
+						<option value="15:35">15:35</option>
+						<option value="17:00">17:00</option>
+						<option value="18:25">18:25</option>
+					</select></td>
+					<td>
+					<input id="lec_t_<?=$i?>" type="text">
+				</td>
 				</tr>
 				<?php
 			}
@@ -293,32 +317,43 @@
 			<table>
 				<thead>
 					<tr>
+						<th><div>Room:</div></th>
 						<th><div>Day:</div></th>
-						<th><div>Time</div></th>
+						<th><div>Time:</div></th>
+						<th><div>Teacher:</div></th>
 					</tr>
 				</thead>
 			<?php
 			for($i = 0; $i < $num; $i++){
 				?>
-				<tr><td>
-				<select name="day" id="lab_day_<?=$i?>">
-					<option value="M">Monday</option>
-					<option value="T">Tuesday</option>
-					<option value="W">Wednesday</option>
-					<option value="Th">Thursday</option>
-					<option value="F">Friday</option>
-					<option value="S">Saturday</option>
-				</select></td><td>
-				<select name="time" id="lab_time_<?=$i?>">
-					<option value="8:00">8:00</option>
-					<option value="9:25">9:25</option>
-					<option value="10:50">10:50</option>
-					<option value="12:45">12:45</option>
-					<option value="14:10">14:10</option>
-					<option value="15:35">15:35</option>
-					<option value="17:00">17:00</option>
-					<option value="18:25">18:25</option>
-				</select></td>
+				<tr>
+					<td>
+						<input id="lab_r_<?=$i?>" type="text">
+					</td>
+					<td>
+					<select name="day" id="lab_day_<?=$i?>">
+						<option value="M">Monday</option>
+						<option value="T">Tuesday</option>
+						<option value="W">Wednesday</option>
+						<option value="Th">Thursday</option>
+						<option value="F">Friday</option>
+						<option value="S">Saturday</option>
+					</select>
+					</td>
+					<td>
+					<select name="time" id="lab_time_<?=$i?>">
+						<option value="8:00">8:00</option>
+						<option value="9:25">9:25</option>
+						<option value="10:50">10:50</option>
+						<option value="12:45">12:45</option>
+						<option value="14:10">14:10</option>
+						<option value="15:35">15:35</option>
+						<option value="17:00">17:00</option>
+						<option value="18:25">18:25</option>
+					</select></td>
+					<td>
+						<input id="lab_t_<?=$i?>" type="text">
+					</td>
 				</tr>
 				<?php
 			}
@@ -363,6 +398,19 @@
 			<p><?=$_POST['user_id']?></p>
 			<p><?=$_POST['course_id']?></p>
 			<?php
+		}
+		else if($method == "get_group_info"){
+			$connection = getConnection();
+			$course_id = $_POST['course_id'];
+			$query = "SELECT name, surname FROM user WHERE id in (SELECT student_id FROM groups WHERE course_id = '$course_id')"
+			$result = mysqli_query($query);
+			$students = array();
+			while($row = mysqli_fetch_assoc($result)){
+				array_push($students, $row);
+			}
+			$group_info[$course_id] = $students;
+
+			echo json_encode($group_info);
 		}
 	}
 

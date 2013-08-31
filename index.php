@@ -26,6 +26,7 @@
 						<li><a href="#tabs-4">User Notification Info</a></li>
 						<li><a href="#tabs-5">Course information</a></li>
 						<li><a href="#tabs-6">User course registeration</a></li>
+						<li><a href="#tabs-7">Group info</a></li>
 					</ul>
 					<div id="tabs-1">
 						<div id="registration">
@@ -183,6 +184,12 @@
 							<div class="input-field"><div>Course ID</div><input id="course_id_reg" type="text" name="c_id"></div>
 						</div>
 						<a id="add_course" href="#" class="classname">Add</a> 
+					</div>
+					<div id="tabs-7">
+						<div>
+							<div class="input-field"><div>Course ID</div><input id="group_cid" type="text" name="c_id"></div>
+						</div>
+						<a id="get_group_info" href="#" class="classname">Add</a> 
 					</div>
 				</div>
 			</div>
